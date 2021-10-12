@@ -15,6 +15,7 @@ import (
 	"go.temporal.io/server/common/log"
 	"go.temporal.io/server/common/metrics"
 	"go.temporal.io/server/common/persistence/sql/sqlplugin/sqlite"
+	"go.temporal.io/server/temporal"
 )
 
 const (
@@ -31,6 +32,7 @@ type Config struct {
 	Namespaces       []string
 	Logger           log.Logger
 	portProvider     *portProvider
+	InterruptOn      *temporal.ServerOption
 }
 
 func NewDefaultConfig() (*Config, error) {

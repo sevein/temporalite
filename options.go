@@ -6,6 +6,7 @@ package temporalite
 
 import (
 	"go.temporal.io/server/common/log"
+	"go.temporal.io/server/temporal"
 
 	"github.com/DataDog/temporalite/internal/liteconfig"
 )
@@ -51,6 +52,15 @@ func WithDynamicPorts() ServerOption {
 func WithNamespaces(namespaces ...string) ServerOption {
 	return newApplyFuncContainer(func(cfg *liteconfig.Config) {
 		cfg.Namespaces = append(cfg.Namespaces, namespaces...)
+	})
+}
+
+// WithInterruptOn registers a channel that interrupts the server on the signal
+// from that channel.
+func WithInterruptOn(interruptCh <-chan interface{}) ServerOption {
+	return newApplyFuncContainer(func(cfg *liteconfig.Config) {
+		option := temporal.InterruptOn(interruptCh)
+		cfg.InterruptOn = &option
 	})
 }
 
