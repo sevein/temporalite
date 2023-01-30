@@ -7,6 +7,7 @@ package temporaltest_test
 import (
 	"context"
 	"fmt"
+	"net"
 	"testing"
 	"time"
 
@@ -119,7 +120,6 @@ func TestNewWorkerWithOptions(t *testing.T) {
 	if result != "Hello world" {
 		t.Fatalf("unexpected result: %q", result)
 	}
-
 }
 
 func TestDefaultWorkerOptions(t *testing.T) {
@@ -219,6 +219,16 @@ func TestSearchAttributeCacheDisabled(t *testing.T) {
 	}
 	if resp.Keys["my-search-attr"] != enums.INDEXED_VALUE_TYPE_TEXT {
 		t.Fatal("search attribute not found")
+	}
+}
+
+func TestFrontendHostPort(t *testing.T) {
+	ts := temporaltest.NewServer(
+		temporaltest.WithT(t),
+	)
+	hostPort := ts.FrontendHostPort()
+	if _, _, err := net.SplitHostPort(hostPort); err != nil {
+		t.Fatal("unable to parse frontend hostport")
 	}
 }
 

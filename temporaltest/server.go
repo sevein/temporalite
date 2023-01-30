@@ -80,6 +80,11 @@ func (ts *TestServer) DefaultClient() client.Client {
 	return ts.defaultClient
 }
 
+// FrontendHostPort returns the host:port for the test server.
+func (ts *TestServer) FrontendHostPort() string {
+	return ts.server.FrontendHostPort()
+}
+
 // NewClientWithOptions returns a new Temporal client configured for making requests to the server.
 //
 // If no namespace option is set it will use a pre-registered test namespace.
